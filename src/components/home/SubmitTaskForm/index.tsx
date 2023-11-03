@@ -1,0 +1,93 @@
+'use client'
+import {Button, Input, Modal, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
+import {useState} from "react";
+import { submitMessageSpiderTask } from "@/request/client/messageSpider";
+
+export default function Index() {
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const [submitLoading, setSubmitLoading] = useState<boolean>(false)
+    const [modalContent, setModalContent] = useState<string>("")
+    const [open, setOpen] = useState<boolean>(false)
+    const [data, setData] = useState<{
+        channel: string,
+        min_id: number
+    }>({
+        channel: "",
+        min_id: 0
+    })
+
+    const onSubmit = () => {
+        if (!data.channel || "" === data.channel) {
+            setModalContent("请输入频道地址")
+            onOpen()
+            return;
+        }
+        if (0 === data.min_id) {
+            setModalContent("请输入最小id")
+            onOpen()
+            return;
+        }
+        setSubmitLoading(true)
+        submitMessageSpiderTask(data).then(
+
+        ).finally(
+            () => {
+                setSubmitLoading(false)
+            }
+        )
+    }
+
+    return (
+        <>
+            <form className="flex flex-col gap-4l">
+                <div className="flex flex-row items-center mt-5">
+                    <div className="w-[15%] min-w-[100px] mr-5">频道地址:</div>
+                    <div className="flex-grow">
+                        <Input
+                            onChange={(e) => {
+                                setData({
+                                    ...data,
+                                    channel: e.target.value
+                                })
+                            }}
+                            placeholder="输入频道地址"
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-row items-center mt-5">
+                    <div className="w-[15%] min-w-[100px] mr-5">开始消息ID:</div>
+                    <div className="flex-grow">
+                        <Input
+                            placeholder="输入开始消息ID"
+                            type="number"
+                            onChange={(e) => {
+                                setData({
+                                    ...data,
+                                    min_id: Number(e.target.value)
+                                })
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="flex gap-2 justify-end mt-10">
+                    <Button onClick={onSubmit} fullWidth color="primary" isLoading={submitLoading}>
+                        开始
+                    </Button>
+                </div>
+            </form>
+            <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1">提示</ModalHeader>
+                    <div className="flex justify-center items-center w-full h-[80px]">
+                        {modalContent}
+                    </div>
+                    <ModalFooter>
+                        <Button color="danger" variant="light" onPress={onClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
