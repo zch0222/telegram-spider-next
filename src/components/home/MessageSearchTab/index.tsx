@@ -41,9 +41,9 @@ export default function MessageSearchTab() {
                 <Button onClick={search} isLoading={isSearching} color="primary">搜索</Button>
             </div>
 
-            <div className="flex flex-col justify-center items-center">
+            <div className="w-full flex flex-col justify-center items-center">
                 {messageData.map(item => (
-                    <div className="mt-3" key={nanoid()}>
+                    <div className="mt-3 w-[95%]" key={nanoid()}>
                         <MessageCard data={item}/>
                     </div>
                 ))}

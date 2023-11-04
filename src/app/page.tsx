@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
-          <Card className="max-w-full w-[80%] h-[400px] max-w-[800px] min-w-[250px]">
+          <Card className="max-w-full w-[80%] min-h-[360px] max-h-[80%] box-border max-w-[800px] min-w-[250px]">
               <CardBody>
                   <div className="flex justify-center items-center text-3xl font-bold mb-5">
                       Telegram Spider
@@ -26,10 +26,9 @@ export default function Home() {
                           <SubmitTaskForm/>
                       </Tab>
                       <Tab key="task_list" title="任务列表">
-
                       </Tab>
 
-                      <Tab className="w-full" key="search" title="搜索消息">
+                      <Tab className="w-ful" key="search" title="搜索消息">
                           <MessageSearchTab/>
                       </Tab>
 
