@@ -1,4 +1,4 @@
-import {all, AxiosResponse} from "axios";
+import {all, AxiosResponse, GenericAbortSignal} from "axios";
 
 import {service, MyAxiosRequestConfig, Method, getTokenDebounce} from "./request";
 
@@ -92,8 +92,15 @@ export default function clientRequest<T>(options: {
     method: string,
     needToken: boolean,
     data?: any,
-    params?: any
+    params?: any,
+}, config?: {
+    onDownloadProgress?: any,
+    signal?: GenericAbortSignal
 }): Promise<AxiosResponse<T>> {
     return service(options);
 }
 
+
+export function myService() {
+    return service;
+}

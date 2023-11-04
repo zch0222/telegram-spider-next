@@ -1,6 +1,7 @@
-import request, { Method } from "@/utils/client-request"
+import request, { Method, myService } from "@/utils/client-request"
 import { ResData } from "@/types/requestTypes";
 import { Message } from "@/types/messageSpiderTypes";
+import {GenericAbortSignal} from "axios";
 
 
 export function submitMessageSpiderTask(params: {
@@ -18,11 +19,31 @@ export function submitMessageSpiderTask(params: {
 export function searchMessageText(params: {
     messageText: string
 }) {
-    console.log(222222)
     return request<ResData<Message[]>>({
         url: "/search_message_text",
         needToken: false,
         method: Method.POST,
         data: params
+    })
+}
+
+export function submitMessageMediaDownload(params: {
+    message_link: string
+}) {
+    return request<ResData<string>>({
+        url: "/download_message_media",
+        needToken: false,
+        method: Method.POST,
+        data: params
+    })
+}
+
+export function getMessageMediaDownloadProcess(params: {
+    onDownloadProcess: any,
+    signal: GenericAbortSignal
+}) {
+    return myService().get('/message_media_download_process', {
+        onDownloadProgress: params.onDownloadProcess,
+        signal: params.signal
     })
 }
