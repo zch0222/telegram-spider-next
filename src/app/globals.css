@@ -26,6 +26,11 @@ html{
   width: 100%;
 }
 
+.progress .ant-progress-text {
+  color: white;
+}
+
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

@@ -2,12 +2,15 @@
 
 import {useState} from "react";
 import {Card, CardBody, Input, Button, Tabs, Tab} from "@nextui-org/react";
+import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
+import FloatButton from "@/components/home/FloatButton";
 
 import SubmitTaskTab from "../components/home/SubmitTaskTab";
 import MessageSearchTab from "@/components/home/MessageSearchTab";
 import TaskProcessTab from "@/components/home/TaskProcessTab";
+import SettingModal from "@/components/SettingModal";
 
-export default function Home() {
+function Home() {
     const [selected, setSelected] = useState<any>("submit_task");
 
   return (
@@ -34,12 +37,15 @@ export default function Home() {
                           <Tab className="w-ful" key="search" title="搜索消息">
                               <MessageSearchTab/>
                           </Tab>
-
                       </Tabs>
                   </div>
 
               </CardBody>
           </Card>
+        <FloatButton/>
+        <SettingModal/>
       </div>
   )
 }
+
+export default withAntdConfigProvider(Home)

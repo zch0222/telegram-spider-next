@@ -12,3 +12,14 @@ export interface Message {
     create_time: string;
     update_time: string;
 }
+
+
+export interface MessageSpiderProcess {
+    name: string
+    createTime: string;
+    channel: string;
+    currentMessageId: number;
+    minMessageId: number;
+    percent: number
+}
+

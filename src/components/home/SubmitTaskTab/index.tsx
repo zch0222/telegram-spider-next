@@ -1,10 +1,15 @@
 'use client'
 import {Button, Input, Modal, ModalContent, ModalFooter, ModalHeader, useDisclosure, Tab, Tabs} from "@nextui-org/react";
+import { useDispatch } from "react-redux";
+import { showMessage } from "@/store/message/messageSlice";
+
 import {useState} from "react";
 import { submitMessageSpiderTask } from "@/request/client/messageSpider";
 import SubmitMessageMediaDownloadForm from "@/components/home/SubmitMessageMediaDownloadForm";
+import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
+import withRedux from "@/components/hoc/withRedux";
 
-export default function Index() {
+function SubmitTaskTab() {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [submitLoading, setSubmitLoading] = useState<boolean>(false)
     const [modalContent, setModalContent] = useState<string>("")
@@ -16,21 +21,34 @@ export default function Index() {
         channel: "",
         min_id: 0
     })
+    const dispatch = useDispatch()
+    // const [messageApi, contextHolder] = message.useMessage();
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!data.channel || "" === data.channel) {
-            setModalContent("请输入频道地址")
-            onOpen()
+            dispatch(showMessage({
+                type: "info",
+                content: "请输入频道地址"
+            }))
+            // messageApi.info("请输入频道地址")
             return;
         }
         if (0 === data.min_id) {
-            setModalContent("请输入最小id")
-            onOpen()
+            dispatch(showMessage({
+                type: "info",
+                content: "请输入最小id"
+            }))
+            // messageApi.info("请输入最小id")
+            // setModalContent()
+            // onOpen()
             return;
         }
         setSubmitLoading(true)
         submitMessageSpiderTask(data).then(
-
+            res => dispatch(showMessage({
+                type: "success",
+                content: "任务提交成功"
+            }))
         ).finally(
             () => {
                 setSubmitLoading(false)
@@ -40,6 +58,7 @@ export default function Index() {
 
     return (
         <div className="min-h-[265px]">
+            {/*{contextHolder}*/}
             <Tabs size="sm">
                 <Tab key="submit_message_spider" title="抓取信息任务">
                     <form className="flex flex-col gap-4l">
@@ -99,3 +118,5 @@ export default function Index() {
         </div>
     )
 }
+
+export default withRedux(withAntdConfigProvider(SubmitTaskTab))

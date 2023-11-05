@@ -1,5 +1,6 @@
 import { Tabs, Tab } from "@nextui-org/react";
-import MediaDownloadProcess from "@/components/home/MediaDownloadProcess";
+import MediaDownloadProcess from "./MediaDownloadProcess";
+import MessageSpiderProcess from "@/components/home/TaskProcessTab/MessageSpiderProcess";
 
 export default function TaskProcessTab() {
     return (
@@ -9,7 +10,7 @@ export default function TaskProcessTab() {
                     <MediaDownloadProcess/>
                 </Tab>
                 <Tab key="message_spider_process" title="消息爬取">
-
+                    <MessageSpiderProcess/>
                 </Tab>
             </Tabs>
         </div>

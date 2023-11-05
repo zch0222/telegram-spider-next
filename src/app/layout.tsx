@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { ConfigProvider, theme } from "antd";
 import {Providers} from "./providers";
-
+import AntdRegistry from "@/lib/AntdRegistry";
+import Message from "@/components/Message";
+import "../../public/antd.min.css"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +23,10 @@ export default function RootLayout({
     <html lang="zh">
       <body className={inter.className}>
         <Providers>
-          {children}
+          <AntdRegistry>
+              <Message/>
+              {children}
+          </AntdRegistry>
         </Providers>
 
       </body>

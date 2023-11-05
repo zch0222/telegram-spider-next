@@ -47,3 +47,31 @@ export function getMessageMediaDownloadProcess(params: {
         signal: params.signal
     })
 }
+
+export function getMessageSpiderProcess(params: {
+    onDownloadProcess: any,
+    signal: GenericAbortSignal
+}) {
+    return myService().get('/task_process', {
+        onDownloadProgress: params.onDownloadProcess,
+        signal: params.signal
+    })
+}
+
+export function restart() {
+    return request<ResData<string>>({
+        url: "/restart",
+        method: Method.POST,
+        needToken: false
+    })
+}
+
+export function getServerStatus(params: {
+    onDownloadProcess: any,
+    signal: GenericAbortSignal
+}) {
+    return myService().get("/status", {
+        onDownloadProgress: params.onDownloadProcess,
+        signal: params.signal
+    })
+}
