@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { ConfigProvider, theme } from "antd";
 import {Providers} from "./providers";
 import AntdRegistry from "@/lib/AntdRegistry";
 import Message from "@/components/Message";
-// import "../../public/antd.min.css"
 
 const inter = Inter({ subsets: ['latin'] })
 
