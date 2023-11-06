@@ -7,7 +7,6 @@ import {useEffect, useState, useMemo} from "react";
 import { nanoid } from "nanoid";
 import Loading from "@/components/Loading";
 import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
-import Item from "@/components/home/TaskProcessTab/MessageSpiderProcess/Item";
 
 
 function MessageSpiderProcess() {

@@ -5,7 +5,8 @@ import { showMessage } from "@/store/message/messageSlice";
 
 import {useState} from "react";
 import { submitMessageSpiderTask } from "@/request/client/messageSpider";
-import SubmitMessageMediaDownloadForm from "@/components/home/SubmitMessageMediaDownloadForm";
+import SubmitMessageMediaDownloadForm from "./SubmitMessageMediaDownloadForm";
+import SubmitYoutubeDLDownloadForm from "@/components/home/SubmitTaskTab/SubmitYoutubeDLDownloadForm";
 import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
 import withRedux from "@/components/hoc/withRedux";
 
@@ -99,6 +100,9 @@ function SubmitTaskTab() {
                 </Tab>
                 <Tab key="submit_message_media_download" title="媒体下载">
                     <SubmitMessageMediaDownloadForm/>
+                </Tab>
+                <Tab key="submit_youtube_dl_download" title="YoutubeDL">
+                    <SubmitYoutubeDLDownloadForm/>
                 </Tab>
             </Tabs>
             <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
