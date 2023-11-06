@@ -1,8 +1,8 @@
 import {AnyAction, combineReducers, configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import messageReducer from "@/store/message/messageSlice";
 import settingModalReducer from "@/store/settingModal/settingModalSlice";
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import { persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+// import { persistReducer } from 'redux-persist';
 
 
 const reducer = combineReducers({
@@ -10,17 +10,17 @@ const reducer = combineReducers({
     settingModal: settingModalReducer
 });
 
-const persistConfig = {
-    key: 'redux',
-    storage,
-    // 黑名单 不缓存的
-    blacklist: ["message", "settingModal"]
-};
-
-const persistedReducer = persistReducer(persistConfig, reducer)
+// const persistConfig = {
+//     key: 'redux',
+//     storage,
+//     // 黑名单 不缓存的
+//     blacklist: ["message", "settingModal"]
+// };
+//
+// const persistedReducer = persistReducer(persistConfig, reducer)
 
 const store = configureStore({
-    reducer: persistedReducer,
+    reducer: reducer,
     middleware: (getDefaultMiddleware) => [...getDefaultMiddleware({
         serializableCheck: false
     })]

@@ -13,7 +13,6 @@ function SubmitTaskTab() {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [submitLoading, setSubmitLoading] = useState<boolean>(false)
     const [modalContent, setModalContent] = useState<string>("")
-    const [open, setOpen] = useState<boolean>(false)
     const [data, setData] = useState<{
         channel: string,
         min_id: number

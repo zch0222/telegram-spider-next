@@ -12,7 +12,6 @@ function FloatButton() {
         <AntdFloatButton
             icon={<SettingOutlined/>}
             onClick={() => {
-                console.log(111)
                 dispatch(setIsOpenSettingModal(true))
             }}
         />

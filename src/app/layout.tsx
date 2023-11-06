@@ -5,7 +5,7 @@ import { ConfigProvider, theme } from "antd";
 import {Providers} from "./providers";
 import AntdRegistry from "@/lib/AntdRegistry";
 import Message from "@/components/Message";
-import "../../public/antd.min.css"
+// import "../../public/antd.min.css"
 
 const inter = Inter({ subsets: ['latin'] })
 
