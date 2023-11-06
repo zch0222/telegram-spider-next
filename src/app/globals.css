@@ -19,11 +19,13 @@
 html{
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 [data-overlay-container] {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 .progress .ant-progress-text {
@@ -41,4 +43,5 @@ body {
     rgb(var(--background-start-rgb));
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
