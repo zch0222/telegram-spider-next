@@ -1,3 +1,4 @@
+'use client'
 import { Listbox, ListboxItem, Chip } from "@nextui-org/react";
 import {nanoid} from "nanoid";
 import {useEffect, useState} from "react";

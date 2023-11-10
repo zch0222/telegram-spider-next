@@ -2,6 +2,7 @@ import {AnyAction, combineReducers, configureStore, getDefaultMiddleware} from "
 import messageReducer from "@/store/message/messageSlice";
 import settingModalReducer from "@/store/settingModal/settingModalSlice";
 import themeReducer from "@/store/theme/themeSlice"
+import drawerReducer from "@/store/drawer/drawerSlice";
 // import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 // import { persistReducer } from 'redux-persist';
 
@@ -9,7 +10,8 @@ import themeReducer from "@/store/theme/themeSlice"
 const reducer = combineReducers({
     message: messageReducer,
     settingModal: settingModalReducer,
-    theme: themeReducer
+    theme: themeReducer,
+    drawer: drawerReducer
 });
 
 // const persistConfig = {

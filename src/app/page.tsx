@@ -8,6 +8,7 @@ import SubmitTaskTab from "../components/home/SubmitTaskTab";
 import MessageSearchTab from "@/components/home/MessageSearchTab";
 import TaskProcessTab from "@/components/home/TaskProcessTab";
 import SettingModal from "@/components/SettingModal";
+import Drawer from "@/components/home/Drawer";
 
 function Home() {
 
@@ -40,7 +41,7 @@ function Home() {
               </CardBody>
           </Card>
           <FloatButton/>
-
+          <Drawer/>
           <SettingModal/>
       </div>
   )

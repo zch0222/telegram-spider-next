@@ -2,13 +2,12 @@
 import { ConfigProvider, theme as antdTheme } from "antd";
 import React, {ComponentType} from "react";
 import { useSelector } from "react-redux";
-import store, { RootState } from "@/store";
+import { RootState } from "@/store";
 import { useTheme } from "next-themes";
-import withRedux from "@/components/hoc/withRedux";
 import { useEffect } from "react";
 
 export default function withAntdConfigProvider(Component: ComponentType<any>) {
-    return withRedux(function AntdComponent(props: any) {
+    return function AntdComponent(props: any) {
         const globalTheme = useSelector((state: RootState) => state.theme)
         const { theme, setTheme } = useTheme()
 
@@ -26,5 +25,5 @@ export default function withAntdConfigProvider(Component: ComponentType<any>) {
                 <Component {...props}/>
             </ConfigProvider>
         )
-    })
+    }
 }

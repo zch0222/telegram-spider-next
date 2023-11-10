@@ -1,3 +1,4 @@
+'use client'
 import { getMessageMediaDownloadProcess } from "@/request/client/messageSpider";
 import { Listbox, ListboxItem, Chip } from "@nextui-org/react";
 import { useState, useEffect } from "react";

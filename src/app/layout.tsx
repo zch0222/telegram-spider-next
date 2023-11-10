@@ -17,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+    console.log("55555")
   return (
     <html lang="zh">
       <head>

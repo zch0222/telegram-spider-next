@@ -53,4 +53,4 @@ function SubmitMessageMediaDownloadForm() {
     )
 }
 
-export default withRedux(SubmitMessageMediaDownloadForm)
+export default SubmitMessageMediaDownloadForm
