@@ -3,6 +3,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import {Providers} from "./providers";
 import Message from "@/components/Message";
+import Drawer from "@/components/home/Drawer";
+import FloatButton from "@/components/home/FloatButton";
+import SettingModal from "@/components/SettingModal";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,8 +29,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-              <Message/>
-              {children}
+            <Message/>
+            {children}
+            <FloatButton/>
+            <Drawer/>
+            <SettingModal/>
         </Providers>
       </body>
     </html>

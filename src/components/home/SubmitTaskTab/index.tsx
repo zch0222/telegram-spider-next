@@ -7,7 +7,7 @@ import {useState} from "react";
 import { submitMessageSpiderTask } from "@/request/client/messageSpider";
 import SubmitMessageMediaDownloadForm from "./SubmitMessageMediaDownloadForm";
 import SubmitYoutubeDLDownloadForm from "@/components/home/SubmitTaskTab/SubmitYoutubeDLDownloadForm";
-import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
+import withThemeConfigProvider from "../../hoc/withThemeConfigProvider";
 import withRedux from "@/components/hoc/withRedux";
 
 function SubmitTaskTab() {
@@ -122,4 +122,4 @@ function SubmitTaskTab() {
     )
 }
 
-export default withRedux(withAntdConfigProvider(SubmitTaskTab))
+export default withRedux(withThemeConfigProvider(SubmitTaskTab))

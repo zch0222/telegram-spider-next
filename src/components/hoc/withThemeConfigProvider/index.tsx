@@ -6,7 +6,7 @@ import { RootState } from "@/store";
 import { useTheme } from "next-themes";
 import { useEffect } from "react";
 
-export default function withAntdConfigProvider(Component: ComponentType<any>) {
+export default function withThemeConfigProvider(Component: ComponentType<any>) {
     return function AntdComponent(props: any) {
         const globalTheme = useSelector((state: RootState) => state.theme)
         const { theme, setTheme } = useTheme()

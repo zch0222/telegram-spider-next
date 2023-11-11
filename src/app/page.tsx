@@ -1,14 +1,11 @@
 'use client'
 
 import {Card, CardBody, Tabs, Tab} from "@nextui-org/react";
-import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
-import FloatButton from "@/components/home/FloatButton";
+import withThemeConfigProvider from "../components/hoc/withThemeConfigProvider";
 
 import SubmitTaskTab from "../components/home/SubmitTaskTab";
 import MessageSearchTab from "@/components/home/MessageSearchTab";
 import TaskProcessTab from "@/components/home/TaskProcessTab";
-import SettingModal from "@/components/SettingModal";
-import Drawer from "@/components/home/Drawer";
 
 function Home() {
 
@@ -37,14 +34,10 @@ function Home() {
 
                       </Tabs>
                   </div>
-
               </CardBody>
           </Card>
-          <FloatButton/>
-          <Drawer/>
-          <SettingModal/>
       </div>
   )
 }
 
-export default withAntdConfigProvider(Home)
+export default withThemeConfigProvider(Home)

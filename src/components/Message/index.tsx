@@ -4,7 +4,7 @@ import { RootState } from "@/store";
 import { useSelector, useDispatch } from "react-redux";
 import { showMessage } from "@/store/message/messageSlice";
 
-import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
+import withThemeConfigProvider from "../hoc/withThemeConfigProvider";
 import withRedux from "@/components/hoc/withRedux"
 import {useEffect} from "react";
 
@@ -29,4 +29,4 @@ function Message() {
     )
 }
 
-export default withRedux(withAntdConfigProvider(Message))
+export default withRedux(withThemeConfigProvider(Message))

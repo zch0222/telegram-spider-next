@@ -1,6 +1,6 @@
 'use client'
 import { FloatButton as AntdFloatButton } from "antd";
-import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider"
+import withThemeConfigProvider from "../../hoc/withThemeConfigProvider"
 import { SettingOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsOpenSettingModal } from "@/store/settingModal/settingModalSlice";
@@ -57,4 +57,4 @@ function FloatButton() {
     )
 }
 
-export default withAntdConfigProvider(FloatButton)
+export default withThemeConfigProvider(FloatButton)

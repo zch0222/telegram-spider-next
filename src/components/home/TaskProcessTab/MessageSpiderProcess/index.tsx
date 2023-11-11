@@ -6,7 +6,7 @@ import {getMessageSpiderProcess} from "@/request/client/messageSpider";
 import {useEffect, useState, useMemo} from "react";
 import { nanoid } from "nanoid";
 import Loading from "@/components/Loading";
-import withAntdConfigProvider from "@/components/hoc/withAntdConfigProvider";
+import withThemeConfigProvider from "../../../hoc/withThemeConfigProvider";
 
 
 function MessageSpiderProcess() {
@@ -80,4 +80,4 @@ function MessageSpiderProcess() {
     )
 }
 
-export default withAntdConfigProvider(MessageSpiderProcess)
+export default withThemeConfigProvider(MessageSpiderProcess)
