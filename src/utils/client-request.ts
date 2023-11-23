@@ -85,7 +85,7 @@ service.interceptors.response.use(
     }
 )
 
-export { Method }
+export { Method, service }
 
 export default function clientRequest<T>(options: {
     url: string,

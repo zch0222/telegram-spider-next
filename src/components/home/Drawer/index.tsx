@@ -46,9 +46,10 @@ function Drawer() {
         },
         {
             id: 3,
-            image: null,
-            text: "Test",
+            image: "/images/chat_pdf_button.jpg",
+            text: "Chat PDF",
             onClick: () => {
+                router.push("/pdf")
                 dispatch(setDrawer({
                     isOpen: false
                 }))
