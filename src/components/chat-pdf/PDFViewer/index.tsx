@@ -46,7 +46,7 @@ export default function PDFViewer({ src }: {
         <div className="w-full h-full">
             {
                 isShowChat ?
-                    <Card className="absolute w-[500px] h-[500px] right-2 top-[70px]">
+                    <Card className="absolute max-w-[500px] max-h-[500px] w-[80%] h-[80%] right-2 top-[70px]">
                         <CardHeader className="flex flex-row justify-end">
                             <div
                                 className="w-[35px] h-[35px] cursor-pointer"
@@ -69,7 +69,7 @@ export default function PDFViewer({ src }: {
             }
             <div className="flex flex-col items-center w-full h-full">
                 <Card
-                    className="flex flex-row items-center justify-center w-full p-1 pl-2 pr-2 h-[60px]"
+                    className="flex flex-row items-center justify-center w-full p-1 pl-2 pr-2 h-[60px] min-h-[60px]"
                     radius="none"
                 >
                     <Button size="sm" onClick={previous}>Previous</Button>
@@ -91,7 +91,7 @@ export default function PDFViewer({ src }: {
                         </Card>
                     </div>
                 </Card>
-                <canvas className="flex-grow" ref={canvasRef}/>
+                <canvas className="max-w-full" ref={canvasRef}/>
             </div>
         </div>
     )
