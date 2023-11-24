@@ -7,7 +7,8 @@ export function chat(params: {
         url: string,
         question: string,
         user_id: number,
-        file_key: string
+        file_key: string,
+        model: string
     }
     onDownloadProcess: any,
     signal: GenericAbortSignal

@@ -1,5 +1,5 @@
 'use client'
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button, Textarea } from "@nextui-org/react";
 import {useEffect, useState, useRef} from "react";
 import {nanoid} from "nanoid";
 
@@ -49,7 +49,8 @@ function Chat({ pdfUrl }: {
                 url: pdfUrl,
                 user_id: 1,
                 question: question,
-                file_key: fileKey
+                file_key: fileKey,
+                model: "gpt-3.5-turbo-16k"
             },
             onDownloadProcess: ({ event }: {event: any}) => {
 
@@ -117,21 +118,33 @@ function Chat({ pdfUrl }: {
                     />
                 ))}
             </div>
-            <div className="flex flex-row">
-                <Input
+            <form
+                className="flex flex-row items-center"
+                onSubmit={() => console.log(111)}
+            >
+                <Textarea
                     className="mr-2"
                     placeholder={"请输入问题"}
                     onValueChange={setPrompt}
                     value={prompt}
+                    onKeyDown={(e) => {
+                        console.log(e.keyCode)
+                        if (e.keyCode === 13) {
+                            e.preventDefault()
+                            send()
+                        }
+                    }}
                 />
                 <Button
-                  color="primary"
-                  onClick={send}
-                  isLoading={isChatting}
+                    className="h-[55px] font-bold"
+                    color="primary"
+                    onClick={send}
+                    isLoading={isChatting}
+                    type="submit"
                 >
-                    发送
+                    Send
                 </Button>
-            </div>
+            </form>
         </div>
     )
 }
