@@ -34,12 +34,22 @@ function Chat({ pdfUrl }: {
 
         const question = prompt
         setPrompt("")
+        const match = pdfUrl.match(/\/([^\/]*\.pdf)/)
+        if (match) {
+            console.log(match[1]);
+        }
+        const fileKey = match?.[1].replace(".", "_")
+        if (!fileKey) {
+            return;
+        }
+        console.log(fileKey)
         chat({
             signal: controller.signal,
             data: {
                 url: pdfUrl,
                 user_id: 1,
-                question: question
+                question: question,
+                file_key: fileKey
             },
             onDownloadProcess: ({ event }: {event: any}) => {
 
