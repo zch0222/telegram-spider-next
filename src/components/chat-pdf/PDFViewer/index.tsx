@@ -3,6 +3,9 @@ import { useState, useRef } from "react";
 // @ts-ignore
 import { usePdf } from '@mikecousins/react-pdf';
 import { Card, Button, Image, CardHeader, CardBody } from "@nextui-org/react";
+import Plus from "@/components/svg/Plus";
+import Reduce from "@/components/svg/Reduce"
+import { Slider } from "@nextui-org/slider";
 
 import Chat from "@/components/chat-pdf/Chat";
 import Loading from "@/components/Loading";
@@ -16,11 +19,13 @@ export default function PDFViewer({ src }: {
 
     const [page, setPage] = useState(1)
     const [isShowChat, setIsShowChat] = useState<boolean>(false)
+    const [scale, setScale] = useState(1.0)
 
     const { pdfDocument, pdfPage } = usePdf({
         file: src,
         page,
         canvasRef,
+        scale
     });
 
     const previous = () => {
@@ -79,19 +84,48 @@ export default function PDFViewer({ src }: {
                     <Button size="sm" onClick={next}>
                         Next
                     </Button>
+                    <div
+                        className="ml-2 cursor-pointer select-none"
+                        onClick={() => {
+                            if (parseFloat(scale.toFixed(1)) > 0.1) {
+                                setScale(scale - 0.1)
+                            }
+                        }}
+                    >
+                        <Reduce width={16} height={16}/>
+                    </div>
+                    <div className="flex justify-center items-center w-[45px] select-none">
+                        {`${(100 * scale).toFixed(0)}%`}
+                    </div>
+                    <div
+                        className="cursor-pointer select-none"
+                        onClick={() => {
+                            if (scale < 4.5) {
+                                setScale(scale + 0.1)
+                            }
+                        }}
+                    >
+                        <Plus width={16} height={16}/>
+                    </div>
+
                     <div className="flex-grow flex flex-row justify-end">
                         <Card isPressable className="rounded-[50px]" onClick={() => {
                             setIsShowChat(!isShowChat)
                         }}>
                             <Image
-                                className="object-cover rounded-[50px] w-[50px] h-[50px]"
+                                className="select-none object-cover rounded-[50px] w-[50px] h-[50px]"
                                 src="https://anynote.obs.cn-east-3.myhuaweicloud.com/images/gpt_button.jpg"
                                 alt="chat"
                             />
                         </Card>
                     </div>
                 </Card>
-                <canvas className="max-w-full" ref={canvasRef}/>
+                <div
+                    className="flex flex-col items-center w-full flex-grow overflow-auto"
+                >
+                    <canvas ref={canvasRef}/>
+                </div>
+
             </div>
         </div>
     )
