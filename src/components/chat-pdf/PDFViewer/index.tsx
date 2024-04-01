@@ -2,8 +2,8 @@
 import {useState, useRef, useEffect} from "react";
 // @ts-ignore
 import { usePdf } from '@mikecousins/react-pdf';
-import { Card, Button, Image, CardHeader, CardBody } from "@nextui-org/react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Card, Button, Image, CardHeader, CardBody, Input } from "@nextui-org/react";
+import { Document, Page, pdfjs, Outline } from "react-pdf";
 import Plus from "@/components/svg/Plus";
 import Reduce from "@/components/svg/Reduce"
 import Catalogue from "@/components/svg/Catalogue";
@@ -34,6 +34,7 @@ function PDFViewer({ src }: {
     const [scale, setScale] = useState(1.0)
     const [pdfUrl, setPdfUrl] = useState<string | null>(null)
     const [numPages , setNumPages ] = useState(0)
+    const [inputPage, setInputPage] = useState<string>(page.toString())
 
     const viewerBackgroundColor = theme === 'light' ? "bg-[#F7F7F8]" : "bg-black"
 
@@ -46,7 +47,14 @@ function PDFViewer({ src }: {
                 console.log(url)
                 setPdfUrl(url)
             })
-    }, [])
+    }, [src])
+
+    useEffect(() => {
+        if (page.toString() !== inputPage) {
+            console.log("Change input page")
+            setInputPage(page.toString())
+        }
+    }, [page]);
 
     const previous = () => {
         if (page > 1) {
@@ -59,6 +67,14 @@ function PDFViewer({ src }: {
             setPage(page + 1)
         }
     }
+
+    const onItemClick = ({ pageIndex }: {
+        pageIndex: number
+    }) => {
+        // 实现页面导航逻辑
+        console.log(`Navigating to page: ${pageIndex + 1}`);
+        setPage(pageIndex + 1)
+    };
 
     if (!pdfUrl) {
         return (
@@ -106,8 +122,33 @@ function PDFViewer({ src }: {
                         <Catalogue width={16} height={16}/>
                     </Button>
                     <Button size="sm" onClick={previous}>Previous</Button>
-                    <div className="flex justify-center items-center w-[80px]">
-                        {`${page}/${numPages}`}
+                    <div className="flex justify-center items-center mr-1 ml-1">
+                        <span>
+                            <Input
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        setPage(+inputPage)
+                                    }
+                                }}
+                                className="w-[60px]"
+                                value={inputPage}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d+$/.test(value)) {
+                                        if (+value > numPages) {
+                                            setInputPage(numPages.toString())
+                                        }
+                                        else {
+                                            setInputPage(value)
+                                        }
+                                    } else if (value === '') {
+                                        // 允许清空输入
+                                        setInputPage('')
+                                    }
+                                }}
+                            />
+                        </span>
+                        {`/${numPages}`}
                     </div>
                     <Button size="sm" onClick={next}>
                         Next
@@ -153,8 +194,9 @@ function PDFViewer({ src }: {
                 >
                     <div className="z-0 relative w-full min-h-full flex flex-col items-center">
                         <Drawer
+                            mask={false}
                             contentWrapperStyle={{
-                                width: 250
+                                width: 350
                             }}
                             closeIcon={null}
                             placement="left"
@@ -171,22 +213,24 @@ function PDFViewer({ src }: {
                                     onLoadError={(e) => {
                                         console.log(e)
                                     }}
-                                >
 
-                                    {new Array(numPages).fill('').map((item, index) => {
-                                        return (
-                                            <div
-                                                className="mt-2 select-none cursor-pointer"
-                                                key={index}
-                                                onClick={() => setPage(index+1)}
-                                            >
-                                                <Page className="select-none" pageNumber={index+1} width={150}/>
-                                                <div>
-                                                    {index + 1}
-                                                </div>
-                                            </div>
-                                        )
-                                    })}
+                                >
+                                    <Outline onItemClick={onItemClick}/>
+
+                                    {/*{new Array(numPages).fill('').map((item, index) => {*/}
+                                    {/*    return (*/}
+                                    {/*        <div*/}
+                                    {/*            className="mt-2 select-none cursor-pointer"*/}
+                                    {/*            key={index}*/}
+                                    {/*            onClick={() => setPage(index+1)}*/}
+                                    {/*        >*/}
+                                    {/*            <Page className="select-none" pageNumber={index+1} width={150}/>*/}
+                                    {/*            <div>*/}
+                                    {/*                {index + 1}*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    )*/}
+                                    {/*})}*/}
                                 </Document>
                             </div>
                         </Drawer>
@@ -195,6 +239,7 @@ function PDFViewer({ src }: {
                             onLoadSuccess={({ numPages } ) => {
                                 setNumPages(numPages)
                             }}
+                            onItemClick={onItemClick}
                         >
                             <Page className="w-[80%]" pageNumber={page} scale={scale}/>
                         </Document>
