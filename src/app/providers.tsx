@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import store from "@/store";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import React from "react";
+import AuthGuard from "@/components/AuthGuard";
 
 export interface ProvidersProps {
     children: React.ReactNode;
@@ -22,7 +23,9 @@ export function Providers({ children, themeProps }: ProvidersProps) {
             <NextUIProvider>
                 <AntdRegistry>
                     <ThemeProvider {...themeProps}>
-                        {children}
+                        <AuthGuard>
+                            {children}
+                        </AuthGuard>
                     </ThemeProvider>
                 </AntdRegistry>
             </NextUIProvider>

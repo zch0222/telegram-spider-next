@@ -1,4 +1,6 @@
 import {all, AxiosResponse, GenericAbortSignal} from "axios";
+import store from "@/store";
+import { logoutSuccess } from "@/store/auth/authSlice";
 
 import {service, MyAxiosRequestConfig, Method, getTokenDebounce} from "./request";
 
@@ -16,10 +18,10 @@ service.interceptors.request.use(
     // }
 );
 
-export const refreshToken = getTokenDebounce() as unknown as () => Promise<any>;
-var isRefreshToken = 0;
-var isRefreshing = false;
-let requests: Function[] = [];
+// export const refreshToken = getTokenDebounce() as unknown as () => Promise<any>;
+// var isRefreshToken = 0;
+// var isRefreshing = false;
+// let requests: Function[] = [];
 
 service.interceptors.response.use(
     response => {
@@ -36,40 +38,11 @@ service.interceptors.response.use(
         const errorData = errorResponse.data || {};
         console.log(errorResponse.status);
         if (errorResponse.status === 401) {
-            // message.info("请先登录")
-            isRefreshToken++;
-
-            console.log("isRRRRrrrrrrrrr", isRefreshToken);
-            if (isRefreshToken === 1) {
-                const res = await refreshToken();
-                if (res !== "success") {
-                    // PubSub.publish("NAVIGATE", "login");
-                    localStorage.clear();
-                    // message.info("请先登录");
-                    return Promise.reject("请先登录")
-                }
-                isRefreshToken = 0;
-
-                requests.forEach(re => {
-                    console.log("re-------------");
-                    re(localStorage.getItem("accessToken"))
-                });
-                requests = [];
-                console.log(res);
-                if (res === undefined) {
-                    return Promise.reject("登录失效")
-                }
-                return service(error.response.config);
-            } else {
-                return new Promise(resolve => {
-                    requests.push((token: string) => {
-                        error.response.config.headers.accessToken = `${token}`;
-                        console.log(token);
-                        console.log("666666", error.response.config);
-                        resolve(service(error.response.config));
-                    })
-                })
+            store.dispatch(logoutSuccess());
+            if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+                window.location.href = '/login';
             }
+            return Promise.reject("请先登录")
         } else if (errorResponse.status !== 401) {
             console.log(1212121)
             // alert("服务器异常请稍后再试试");

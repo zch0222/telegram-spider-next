@@ -19,6 +19,7 @@ let requests: Function[] = [];
 export const service = axios.create({
     timeout: 360000,
     baseURL: baseURL,
+    withCredentials: true
 })
 
 // service.interceptors.request.use(

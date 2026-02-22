@@ -3,6 +3,8 @@ import messageReducer from "@/store/message/messageSlice";
 import settingModalReducer from "@/store/settingModal/settingModalSlice";
 import themeReducer from "@/store/theme/themeSlice"
 import drawerReducer from "@/store/drawer/drawerSlice";
+import authReducer from "@/store/auth/authSlice";
+
 // import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 // import { persistReducer } from 'redux-persist';
 
@@ -11,7 +13,8 @@ const reducer = combineReducers({
     message: messageReducer,
     settingModal: settingModalReducer,
     theme: themeReducer,
-    drawer: drawerReducer
+    drawer: drawerReducer,
+    auth: authReducer
 });
 
 // const persistConfig = {
