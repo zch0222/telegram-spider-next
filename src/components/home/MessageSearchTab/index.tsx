@@ -39,7 +39,7 @@ export default function MessageSearchTab() {
 
     return (
         <div className="flex flex-col items-center h-full w-full">
-            <div className="flex flex-col justify-center items-center w-full px-4 gap-4 mt-4">
+            <div className="flex flex-col justify-center items-center w-[95%] gap-4 mt-4">
                 <Input
                     className="w-full"
                     label="搜索文字"

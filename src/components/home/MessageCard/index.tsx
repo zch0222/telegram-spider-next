@@ -28,7 +28,7 @@ export default function MessageCard({data}: {
             </CardBody>
             <CardFooter className="p-5">
                 <div className="flex flex-col">
-                    <div>消息时间：{`${new Date(date).toLocaleDateString()} ${new Date(date).toLocaleTimeString()}`}</div>
+                    <div>消息时间：{new Date(date.endsWith("Z") ? date : date + "Z").toLocaleString()}</div>
                     <Link href={link} target="_blank">查看详情</Link>
                 </div>
             </CardFooter>
