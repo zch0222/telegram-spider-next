@@ -16,14 +16,14 @@ service.interceptors.request.use(
     // }
 );
 
-export const refreshToken = getTokenDebounce();
+export const refreshToken = getTokenDebounce() as unknown as () => Promise<any>;
 var isRefreshToken = 0;
 var isRefreshing = false;
 let requests: Function[] = [];
 
 service.interceptors.response.use(
     response => {
-        if (response.data.code !== 1) {
+        if (response.data.code !== 1 && response.data.code !== 200) {
             // alert(response.data.msg);
             // message.error(response.data.msg)
             return Promise.reject(response.data.msg)

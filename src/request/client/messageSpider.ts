@@ -1,6 +1,6 @@
 import request, { Method, myService } from "@/utils/client-request"
 import { ResData } from "@/types/requestTypes";
-import { Message } from "@/types/messageSpiderTypes";
+import { MessageListResponse, SearchMessageParams } from "@/types/messageSpiderTypes";
 import {GenericAbortSignal} from "axios";
 
 
@@ -16,10 +16,8 @@ export function submitMessageSpiderTask(params: {
     })
 }
 
-export function searchMessageText(params: {
-    messageText: string
-}) {
-    return request<ResData<Message[]>>({
+export function searchMessageText(params: SearchMessageParams) {
+    return request<ResData<MessageListResponse>>({
         url: "/search_message_text",
         needToken: false,
         method: Method.POST,

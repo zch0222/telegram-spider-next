@@ -17,9 +17,11 @@ export default function MessageCard({data}: {
                 <div>频道地址: {channel}</div>
             </CardHeader>
             <CardBody>
-                <div className="mb-1">
-                    {sender_username}:
-                </div>
+                {sender_username && (
+                    <div className="mb-1">
+                        {sender_username}:
+                    </div>
+                )}
                 <div>
                     {message_text}
                 </div>
