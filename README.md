@@ -29,8 +29,58 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## 部署指南 (Deployment)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Docker 部署
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+本项目已包含基于 Alpine 的多阶段构建 `Dockerfile`，生成的镜像体积小且安全。
+
+1. **构建镜像**：
+
+```bash
+docker build -t telegram-spider-next .
+```
+
+2. **运行容器**：
+
+```bash
+docker run -d -p 3000:3000 --name telegram-spider-next --restart unless-stopped telegram-spider-next
+```
+
+访问 `http://localhost:3000` 即可看到运行的应用。
+
+### PM2 部署
+
+本项目配置了 `output: 'standalone'`，推荐使用 standalone 模式进行部署，可以显著降低内存占用。
+
+#### 1. 构建项目
+
+```bash
+npm run build
+```
+
+#### 2. 准备运行文件
+
+Standalone 模式需要手动将静态资源复制到运行目录：
+
+```bash
+# 复制 public 目录
+cp -r public .next/standalone/
+
+# 复制静态资源 (static)
+cp -r .next/static .next/standalone/.next/
+```
+
+#### 3. 启动服务
+
+使用 PM2 启动 standalone 服务：
+
+```bash
+pm2 start .next/standalone/server.js --name telegram-spider-next
+```
+
+或者使用标准模式启动（不推荐，内存占用较高）：
+
+```bash
+pm2 start npm --name telegram-spider-next -- start
+```
