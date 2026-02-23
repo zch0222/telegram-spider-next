@@ -25,3 +25,14 @@ export interface YtDlpProcess {
     eta?: string;
     error?: string;
 }
+
+export interface YtDlpTask {
+    id: number;
+    url: string;
+    status: string;
+    title: string;
+    file_path: string;
+    progress: number;
+    created_at: string;
+    [key: string]: any;
+}

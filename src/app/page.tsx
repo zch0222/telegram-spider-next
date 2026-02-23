@@ -1,14 +1,36 @@
 'use client'
 import {Tabs, Tab, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
 import withThemeConfigProvider from "../components/hoc/withThemeConfigProvider";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useEffect, useState } from "react";
 
 import SubmitTaskTab from "../components/home/SubmitTaskTab";
 import MessageSearchTab from "@/components/home/MessageSearchTab";
 import TaskProcessTab from "@/components/home/TaskProcessTab";
+import SystemLogTab from "@/components/home/SystemLogTab";
 
 function Home() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [selectedTab, setSelectedTab] = useState<string>("submit_task");
+
+  useEffect(() => {
+    if (searchParams) {
+      const tab = searchParams.get('tab');
+      if (tab) {
+        setSelectedTab(tab);
+      }
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (key: React.Key) => {
+    setSelectedTab(key as string);
+    // Create a new URLSearchParams object from the current searchParams
+    const params = new URLSearchParams(searchParams ? searchParams.toString() : '');
+    params.set('tab', key as string);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   const handleMenuAction = (key: string | number) => {
     if (key === 'logout') {
@@ -39,6 +61,8 @@ function Home() {
                   fullWidth
                   size="md"
                   aria-label="Options"
+                  selectedKey={selectedTab}
+                  onSelectionChange={handleTabChange}
               >
                   <Tab key="submit_task" title="提交任务">
                       <SubmitTaskTab/>
@@ -50,7 +74,9 @@ function Home() {
                   <Tab key="search" title="搜索消息">
                       <MessageSearchTab/>
                   </Tab>
-
+                  <Tab key="system_log" title="系统日志">
+                      <SystemLogTab/>
+                  </Tab>
               </Tabs>
           </div>
       </div>
