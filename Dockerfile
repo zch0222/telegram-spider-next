@@ -6,7 +6,8 @@ FROM node:18-alpine AS base
 # ---------------------------------------------------
 FROM base AS deps
 # 针对 Alpine 补充兼容性 C 库，防止某些原生依赖报错（如 sharp）
-RUN apk add --no-cache libc6-compat
+# 安装 python3, make, g++ 以及 canvas 编译所需的依赖库
+RUN apk add --no-cache libc6-compat python3 make g++ build-base cairo-dev pango-dev jpeg-dev giflib-dev librsvg-dev
 WORKDIR /app
 
 # 利用 Docker 缓存层，只有当 package.json 相关文件变化时才重新执行 npm ci
@@ -40,8 +41,11 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
+# 安装 canvas 运行时所需的依赖库
+RUN apk add --no-cache cairo pango jpeg giflib librsvg
+
 # 设置生产环境变量
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 # 创建非 root 用户 (nodejs) 和用户组 (nextjs)，以最小权限运行服务，提升安全性
 RUN addgroup --system --gid 1001 nodejs
@@ -62,9 +66,9 @@ USER nextjs
 
 # 暴露端口给宿主机或反向代理
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 # 必须设置为 0.0.0.0，否则在 Docker 容器外无法访问网络
-ENV HOSTNAME "0.0.0.0"
+ENV HOSTNAME="0.0.0.0"
 
 # 启动 standalone 模式的 Node.js 服务器
 CMD ["node", "server.js"]
