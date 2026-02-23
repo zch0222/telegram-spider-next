@@ -6,6 +6,7 @@ import { PollingLogItem, PollingLogSearchDTO } from "@/types/systemLogTypes";
 import useMobileScreen from "@/hooks/useMobileScreen";
 import { showMessage } from "@/store/message/messageSlice";
 import { useDispatch } from "react-redux";
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 const levels = [
     { label: "全部", value: "" },
@@ -17,20 +18,70 @@ const levels = [
 export default function PollingLogTab() {
     const isMobile = useMobileScreen();
     const dispatch = useDispatch();
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
     const [logs, setLogs] = useState<PollingLogItem[]>([]);
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [searchParams, setSearchParams] = useState<PollingLogSearchDTO>({
+    const [searchParamsState, setSearchParamsState] = useState<PollingLogSearchDTO>({
         page: 1,
         page_size: 20,
         level: undefined,
         keyword: ""
     });
 
+    // 初始化参数
+    useEffect(() => {
+        if (searchParams) {
+            const levelParam = searchParams.get('polling_level') as 'INFO' | 'WARNING' | 'ERROR' | undefined;
+            const keywordParam = searchParams.get('polling_keyword');
+            const pageParam = searchParams.get('polling_page');
+
+            setSearchParamsState(prev => ({
+                ...prev,
+                level: levelParam || undefined,
+                keyword: keywordParam || "",
+                page: pageParam ? Number(pageParam) : 1
+            }));
+        }
+
+        // 卸载时清理参数
+        return () => {
+            const params = new URLSearchParams(window.location.search);
+            let hasChange = false;
+            if (params.has('polling_level')) { params.delete('polling_level'); hasChange = true; }
+            if (params.has('polling_keyword')) { params.delete('polling_keyword'); hasChange = true; }
+            if (params.has('polling_page')) { params.delete('polling_page'); hasChange = true; }
+            
+            if (hasChange) {
+                window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+            }
+        };
+    }, []);
+
+    // 更新 URL 参数
+    const updateUrlParams = (newState: PollingLogSearchDTO) => {
+        // 使用 window.location.search 获取最新的 URL 参数，而不是依赖可能旧的 searchParams
+        const params = new URLSearchParams(window.location.search);
+        
+        if (newState.level) params.set('polling_level', newState.level);
+        else params.delete('polling_level');
+
+        if (newState.keyword) params.set('polling_keyword', newState.keyword);
+        else params.delete('polling_keyword');
+
+        if (newState.page && newState.page > 1) params.set('polling_page', newState.page.toString());
+        else params.delete('polling_page');
+
+        router.replace(`${pathname}?${params.toString()}`);
+    };
+
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await searchPollingLog(searchParams);
+            const res = await searchPollingLog(searchParamsState);
             if (res.data.code === 200 || res.data.code === 1) {
                 setLogs(res.data.data.list);
                 setTotal(res.data.data.total);
@@ -42,23 +93,29 @@ export default function PollingLogTab() {
         } finally {
             setLoading(false);
         }
-    }, [searchParams, dispatch]);
+    }, [searchParamsState, dispatch]);
 
     useEffect(() => {
         fetchData();
     }, [fetchData]);
 
     const handleSearch = (keyword: string) => {
-        setSearchParams(prev => ({ ...prev, keyword, page: 1 }));
+        const newState = { ...searchParamsState, keyword, page: 1 };
+        setSearchParamsState(newState);
+        updateUrlParams(newState);
     };
 
     const handleLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const level = e.target.value as 'INFO' | 'WARNING' | 'ERROR' | undefined;
-        setSearchParams(prev => ({ ...prev, level: level || undefined, page: 1 }));
+        const newState = { ...searchParamsState, level: level || undefined, page: 1 };
+        setSearchParamsState(newState);
+        updateUrlParams(newState);
     };
 
     const handlePageChange = (page: number) => {
-        setSearchParams(prev => ({ ...prev, page }));
+        const newState = { ...searchParamsState, page };
+        setSearchParamsState(newState);
+        updateUrlParams(newState);
     };
 
     const renderLevel = (level: string) => {
@@ -108,8 +165,8 @@ export default function PollingLogTab() {
                                 showControls
                                 showShadow
                                 color="primary"
-                                page={searchParams.page}
-                                total={Math.ceil(total / (searchParams.page_size || 20))}
+                                page={searchParamsState.page}
+                                total={Math.ceil(total / (searchParamsState.page_size || 20))}
                                 onChange={handlePageChange}
                             />
                         </div>

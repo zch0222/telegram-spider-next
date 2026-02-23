@@ -11,11 +11,10 @@ export default function YtDlpListTab() {
     const isMobile = useMobileScreen();
     const dispatch = useDispatch();
     const [tasks, setTasks] = useState<YtDlpTask[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
             try {
                 const res = await getYtDlpList();
                 if (res.data.code === 200 || res.data.code === 1) {
@@ -31,6 +30,8 @@ export default function YtDlpListTab() {
         };
 
         fetchData();
+        const interval = setInterval(fetchData, 3000);
+        return () => clearInterval(interval);
     }, [dispatch]);
 
     const renderStatus = (status: string) => {

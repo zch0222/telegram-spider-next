@@ -10,9 +10,32 @@ import SubmitYoutubeDLDownloadForm from "@/components/home/SubmitTaskTab/SubmitY
 import SubmitYtDlpDownloadForm from "@/components/home/SubmitTaskTab/SubmitYtDlpDownloadForm";
 import withThemeConfigProvider from "../../hoc/withThemeConfigProvider";
 import withRedux from "@/components/hoc/withRedux";
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useEffect } from "react";
 
 function SubmitTaskTab() {
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const [selectedTab, setSelectedTab] = useState<string>("submit_message_spider");
+
+    useEffect(() => {
+        if (searchParams) {
+            const tab = searchParams.get('submit_tab');
+            if (tab) {
+                setSelectedTab(tab);
+            }
+        }
+    }, [searchParams]);
+
+    const handleTabChange = (key: React.Key) => {
+        setSelectedTab(key as string);
+        const params = new URLSearchParams(window.location.search);
+        params.set('submit_tab', key as string);
+        router.replace(`${pathname}?${params.toString()}`);
+    };
+
     const [submitLoading, setSubmitLoading] = useState<boolean>(false)
     const [modalContent, setModalContent] = useState<string>("")
     const [data, setData] = useState<{
@@ -60,7 +83,7 @@ function SubmitTaskTab() {
     return (
         <div className="min-h-[265px]">
             {/*{contextHolder}*/}
-            <Tabs size="sm">
+            <Tabs size="sm" selectedKey={selectedTab} onSelectionChange={handleTabChange}>
                 <Tab key="submit_message_spider" title="抓取信息任务">
                     <form className="flex flex-col gap-4l">
                         <div className="flex flex-row items-center mt-5">
