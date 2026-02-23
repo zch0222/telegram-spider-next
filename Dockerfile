@@ -26,6 +26,9 @@ COPY --from=deps /app/node_modules ./node_modules
 # 复制项目所有源码
 COPY . .
 
+# 设置构建时的环境变量，确保 output: 'standalone' 生效
+ENV NODE_ENV=production
+
 # 【核心步骤】：将本地的 .env.local 复制到镜像内，并命名为 .env.production
 # 这一步是强制 Next.js 在 build 阶段读取到 NEXT_PUBLIC_ 开头的变量，
 # 并将它们硬编码打包进最终发给客户端的 JS 文件中。
