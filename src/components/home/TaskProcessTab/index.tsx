@@ -1,7 +1,8 @@
 import { Tabs, Tab } from "@nextui-org/react";
 import MediaDownloadProcess from "./MediaDownloadProcess";
-import MessageSpiderProcess from "@/components/home/TaskProcessTab/MessageSpiderProcess";
-import YoutubeDLDownloadProcess from "@/components/home/TaskProcessTab/YoutubeDLDownloadProcess";
+import MessageSpiderProcess from "./MessageSpiderProcess";
+import YoutubeDLDownloadProcess from "./YoutubeDLDownloadProcess";
+import YtDlpDownloadProcess from "./YtDlpDownloadProcess";
 
 export default function TaskProcessTab() {
     return (
@@ -15,6 +16,9 @@ export default function TaskProcessTab() {
                 </Tab>
                 <Tab key="youtube_dl_download_process" title="YoutubeDL">
                     <YoutubeDLDownloadProcess/>
+                </Tab>
+                <Tab key="yt_dlp_download_process" title="yt-dlp下载进度">
+                    <YtDlpDownloadProcess/>
                 </Tab>
             </Tabs>
         </div>

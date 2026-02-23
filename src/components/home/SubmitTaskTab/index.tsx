@@ -7,6 +7,7 @@ import {useState} from "react";
 import { submitMessageSpiderTask } from "@/request/client/messageSpider";
 import SubmitMessageMediaDownloadForm from "./SubmitMessageMediaDownloadForm";
 import SubmitYoutubeDLDownloadForm from "@/components/home/SubmitTaskTab/SubmitYoutubeDLDownloadForm";
+import SubmitYtDlpDownloadForm from "@/components/home/SubmitTaskTab/SubmitYtDlpDownloadForm";
 import withThemeConfigProvider from "../../hoc/withThemeConfigProvider";
 import withRedux from "@/components/hoc/withRedux";
 
@@ -103,6 +104,9 @@ function SubmitTaskTab() {
                 </Tab>
                 <Tab key="submit_youtube_dl_download" title="YoutubeDL">
                     <SubmitYoutubeDLDownloadForm/>
+                </Tab>
+                <Tab key="submit_yt_dlp_download" title="yt-dlp下载">
+                    <SubmitYtDlpDownloadForm/>
                 </Tab>
             </Tabs>
             <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
