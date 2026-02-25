@@ -6,6 +6,7 @@ import { YtDlpTask } from "@/types/youtubeDLType";
 import useMobileScreen from "@/hooks/useMobileScreen";
 import { showMessage } from "@/store/message/messageSlice";
 import { useDispatch } from "react-redux";
+import { formatToLocalTime } from "@/utils/date";
 
 export default function YtDlpListTab() {
     const isMobile = useMobileScreen();
@@ -84,7 +85,7 @@ export default function YtDlpListTab() {
             case 'file_path':
                 return <div className="max-w-[200px] truncate" title={item.file_path}>{item.file_path || '-'}</div>;
             case 'created_at':
-                return <div className="whitespace-nowrap">{item.created_at}</div>;
+                return <div className="whitespace-nowrap">{formatToLocalTime(item.created_at)}</div>;
             default:
                 return item[columnKey as keyof YtDlpTask];
         }

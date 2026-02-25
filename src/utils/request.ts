@@ -9,7 +9,7 @@ export interface MyAxiosRequestConfig extends InternalAxiosRequestConfig {
 }
 
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL
+const baseURL = typeof window !== 'undefined' ? '/api' : process.env.NEXT_PUBLIC_BASE_URL
 export const refreshToken = getTokenDebounce();
 var isRefreshToken = 0;
 var isRefreshing = false;

@@ -7,6 +7,7 @@ import useMobileScreen from "@/hooks/useMobileScreen";
 import { showMessage } from "@/store/message/messageSlice";
 import { useDispatch } from "react-redux";
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { formatToLocalTime } from "@/utils/date";
 
 const levels = [
     { label: "全部", value: "" },
@@ -196,7 +197,7 @@ export default function PollingLogTab() {
                                     {item.message}
                                 </div>
                             </TableCell>
-                            <TableCell className="whitespace-nowrap">{item.created_at}</TableCell>
+                            <TableCell className="whitespace-nowrap">{formatToLocalTime(item.created_at)}</TableCell>
                         </TableRow>
                     )}
                 </TableBody>
