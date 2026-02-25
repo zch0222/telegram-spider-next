@@ -20,5 +20,12 @@ export function getYtDlpList() {
 }
 
 export const getYtDlpProcessUrl = () => {
+    // If we are using the proxy (e.g. locally), we should use /api prefix
+    // But EventSource needs a full URL or relative path. 
+    // Since we set up a rewrite for /api -> NEXT_PUBLIC_BASE_URL
+    // We should use /api/yt-dlp/process locally to go through the proxy and get cookies.
+    if (typeof window !== 'undefined') {
+        return '/api/yt-dlp/process';
+    }
     return `${process.env.NEXT_PUBLIC_BASE_URL}/yt-dlp/process`;
 }
